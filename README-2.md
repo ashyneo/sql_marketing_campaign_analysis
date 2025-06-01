@@ -1,10 +1,13 @@
 # Introduction
-📊 Dive into the analysis of a marketing campaign performance data! In this project I focus on cleaning and exploratory data analysis (EDA); such as exploring 💰 top-campaigns that generate most revenue, conversions, and 📈 any statistical correlations that drive the success of these metrics.
+📊 Here, I dove into analyzing marketing campaign performance data!
+In this project, I focused on data cleaning and exploratory data analysis (EDA) — such as identifying 💰 top-performing campaigns by revenue and conversions, and exploring 📈 statistical correlations that might explain what drives their success.
 
-🔍 SQL queries? Check them out here: [View Marketing Analysis SQL](First_Proj_Data_Cleaning_Exploration.sql)
+🔍 Check out my SQL Queries here: [View Marketing Analysis SQL](First_Proj_Data_Cleaning_Exploration.sql)
+
+Essential sql steps required for postgresql on vscode: [Essential Sql Steps](First_Project_SQL_Ash.session.sql)
 
 # Background
-Driven by the quest to evaluate campaign efficiency, product sales, and customer engagement that replicates real-life scenarios, this project was created synthetically to allow for a comprehensive analysis of a marketing campaign performance.
+Driven by the quest to evaluate campaign efficiency, product sales, and customer engagement that replicates real-life scenarios, this dataset was created synthetically to allow for a comprehensive analysis of a marketing campaign performance.
 
 Data is extracted from [Kaggle Dataset](https://www.kaggle.com/datasets/imranalishahh/marketing-and-product-performance-dataset). It's packed with insights on campaign performance, product details, customer insights, and promotional context like discount levels and common keywords by consumers.
 
@@ -14,9 +17,9 @@ Data is extracted from [Kaggle Dataset](https://www.kaggle.com/datasets/imranali
 2. Do premium subscriptions generate more revenue compared to basic ones?
 3. What is the average number of clicks required to achieve a single conversion?
 4. Analyse the ROI and Conversions by discount levels. Any interesting insights found?
-5. What is the optimal discount ranges that will yield the most profitable ROI and conversions?
-6. Which product bundles generates the most sales?
-7. How does the customer satisfaction levels vary across different price ranges?
+5. What is the optimal discount ranges that yields the highest ROI and conversions?
+6. Which product bundles generate the most sales?
+7. How does the customer satisfaction levels vary across different price range?
 8. Are there any correlation between certain campaign keywords and conversion rates?
 9. Additional: Exploration of relationship between bundle price, units sold, and average satisfaction rate.
 
@@ -30,190 +33,167 @@ For my deep dive into the marketing campaign performance, I harnessed the power 
   
 
 # The Analysis
-Each query for this project aimed at investigating specific aspects of the marketing campaign performance. Here’s how I approached each question:
+Each query for this project aims at investigating specific aspects of the marketing campaign performance. I cleaned the data before conducting exploratory data analysis (EDA). Specifically, I first created a staging table and looked at **missing values, duplicates, null values, inconsistent formatting** by generating a summary statistic to identify these issues.
 
-### 1. Top Paying Data Analyst Jobs
-To identify the highest-paying roles, I filtered data analyst positions by average yearly salary and location, focusing on remote jobs. This query highlights the high paying opportunities in the field.
+I ensured the table is clean before beginning the necessary EDA for each question.
+
+Here’s how I approached each question:
+
+### 1. Top Campaigns with the Highest ROI
+To identify which are the top 10 campaigns that generated the highest ROI, I filtered the relevant campaign ids by their ROI, ordering by the top 10 best performing campaigns. This query highlights the best campaigns with the highest ROI.
 
 ```sql
-SELECT	
-	job_id,
-	job_title,
-	job_location,
-	job_schedule_type,
-	salary_year_avg,
-	job_posted_date,
-    name AS company_name
-FROM
-    job_postings_fact
-LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
-WHERE
-    job_title_short = 'Data Analyst' AND 
-    job_location = 'Anywhere' AND 
-    salary_year_avg IS NOT NULL
-ORDER BY
-    salary_year_avg DESC
+SELECT
+campaign_id,
+return_on_investments
+FROM analysis_cleaned
+ORDER BY return_on_investments DESC
 LIMIT 10;
 ```
-Here's the breakdown of the top data analyst jobs in 2023:
-- **Wide Salary Range:** Top 10 paying data analyst roles span from $184,000 to $650,000, indicating significant salary potential in the field.
-- **Diverse Employers:** Companies like SmartAsset, Meta, and AT&T are among those offering high salaries, showing a broad interest across different industries.
-- **Job Title Variety:** There's a high diversity in job titles, from Data Analyst to Director of Analytics, reflecting varied roles and specializations within data analytics.
+Here's the breakdown of what I found:
+- **Multiple Excellent Performing Campaigns:** All 10 campaigns had the maximum ROI of 5.0, indicating many campaigns with great track record of success.
+- **Success of these Campaigns:** These campaigns include CMP_2GQ60B, CMP_5590UQ, CMP_U44WCH can be further evaluated with the marketing team to understand nd ensure future campaign success.
+  
+  
+<img width="376" alt="image" src="https://github.com/user-attachments/assets/407f0982-3249-42b1-a07d-1c661b9cbe25" />
 
-![Top Paying Roles](assets/1_top_paying_roles.png)
-*Bar graph visualizing the salary for the top 10 salaries for data analysts; ChatGPT generated this graph from my SQL query results*
+*Screenshot of the output of the top performing campaigns*
 
-### 2. Skills for Top Paying Jobs
-To understand what skills are required for the top-paying jobs, I joined the job postings with the skills data, providing insights into what employers value for high-compensation roles.
+### 2. Does Premium Subscription = Greater Revenue?
+To understand whether Premium subscriptions correlate with greater revenue, I wrote a SQL query to aggregate the average revenue per campaign and group the results with subscription tier. This will show me a brief overview of the three subscription tiers and the average revenue generated to allow for comparison. 
 ```sql
-WITH top_paying_jobs AS (
-    SELECT	
-        job_id,
-        job_title,
-        salary_year_avg,
-        name AS company_name
-    FROM
-        job_postings_fact
-    LEFT JOIN company_dim ON job_postings_fact.company_id = company_dim.company_id
-    WHERE
-        job_title_short = 'Data Analyst' AND 
-        job_location = 'Anywhere' AND 
-        salary_year_avg IS NOT NULL
-    ORDER BY
-        salary_year_avg DESC
-    LIMIT 10
+SELECT
+subscription_tier,
+ROUND(AVG(revenue_generated)::numeric, 2) AS avg_revenue_per_campaign
+FROM analysis_cleaned
+GROUP BY subscription_tier
+ORDER BY avg_revenue_per_campaign DESC;
+```
+Here's the breakdown of each subscription tier and the respective average revenue earned:
+- **Basic** is leading with an average revenue earned of $50,157.92.
+- **Premium** follows closely with an average revenue earned of $50,093.14.
+- **Standard** is also highly sought after, with an average revenue earned of $49,860.90.
+Interestingly, higher subscription tiers does not lead to greater revenue, as the demand for Basic tier led the highest revenue earned across each tier. This may indicate either a larger customer base in Basic tier, or a higher retention efficiency at a lower price point. Focusing or upselling within the Basic tier could have a high ROI impact.
+
+![image](https://github.com/user-attachments/assets/1ada86c0-c991-437b-9b6b-09693eb8bcea)
+
+
+*Bar graph visualizing the average revenues of each subscription tiers. Utilised AI to generate this graph from my SQL query results*
+
+### 3. Top Most Efficient Campaigns in Converting Clicks into Conversions
+
+This query helped identify the most efficient campaigns in generating the most conversions per average clicks. The campaign with highest conversions with lowest average clicks are the best.
+
+```sql
+ALTER TABLE analysis_cleaned
+ADD COLUMN clicks_per_conversion NUMERIC;
+
+-- Populate the new column with my aggregation:
+UPDATE analysis_cleaned
+SET clicks_per_conversion = clicks / conversions
+WHERE conversions IS NOT NULL AND conversions <>0;
+
+SELECT 
+  campaign_id,
+  SUM(clicks) AS total_clicks,
+  SUM(conversions) AS total_conversions,
+  ROUND(SUM(clicks)::numeric / NULLIF(SUM(conversions), 0), 2) AS avg_clicks_per_conversion
+FROM analysis_cleaned
+GROUP BY campaign_id
+ORDER BY avg_clicks_per_conversion ASC;
+```
+Here's the breakdown of the most efficient campaigns in converting clicks into desired actions:
+- The top 5 campaigns show a surprisingly high conversion-to-click ratio, where conversions outnumber clicks significantly.
+- **CMP_MY63GT** campaign recorded only 15 clicks but achieved 974 conversions, leading to 0.02 clicks per conversion. This suggests multiple clicks per conversion, which could possibly be:
+- **One user generating many conversions through multiple product purchases in one session.**
+- **Shared links (e.g. from influencers' links or referral campaigns) where the original user click is tracked, which could result in unconventional conversion tracking.**
+
+| campaign_id   | total_clicks | total_conversions | avg_clicks_per_conversion |
+|----------|--------------|----------------|--------------------------------|
+| CMP_MY63GT      | 15         | 974          | 0.02  |
+| CMP_HRX2CJ    | 17         | 738          | 0.02  |
+| CMP_9HV1Z0   | 19         | 866          | 0.02|
+| CMP_A5FCUZ  | 13         | 656          | 0.02   |
+| CMP_FAZ4X3 | 19         | 780          | 0.02       |
+
+*Table of the top 5 campaigns with highest average clicks per conversion in analysis_cleaned table.*
+
+### 4. Does discount levels have an impact on ROI and Conversions?
+Exploring the average ROI and Conversions to see if there are any correlation with the level of discounts. I used a Common Table Expression (CTE) to analyse the results further using MAX aggregations within the CTE.
+
+```sql
+WITH Analyse_ROI AS
+(
+SELECT
+discount_level,
+ROUND(AVG(return_on_investments)::numeric, 2) AS average_roi,
+ROUND(AVG(conversions)::numeric, 2) AS avg_conversions,
+MAX(return_on_investments) AS max_roi,
+MAX(conversions) AS max_conversions
+FROM analysis_cleaned
+GROUP BY discount_level
+ORDER BY discount_level
 )
-
-SELECT 
-    top_paying_jobs.*,
-    skills
-FROM top_paying_jobs
-INNER JOIN skills_job_dim ON top_paying_jobs.job_id = skills_job_dim.job_id
-INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
-ORDER BY
-    salary_year_avg DESC;
+SELECT *
+FROM Analyse_ROI;
 ```
-Here's the breakdown of the most demanded skills for the top 10 highest paying data analyst jobs in 2023:
-- **SQL** is leading with a bold count of 8.
-- **Python** follows closely with a bold count of 7.
-- **Tableau** is also highly sought after, with a bold count of 6.
-Other skills like **R**, **Snowflake**, **Pandas**, and **Excel** show varying degrees of demand.
+Key Insights derived from the above query:
+- **No Strong Correlation Detected:** Despite expectations, there is **no clear relationship** between discount levels and:
+  - **Average ROI** – remains relatively stable, fluctuating around **2.5** even at high discount levels (e.g., 69%).
+  - **Average Conversions** – consistently hovers between **400 to 500 conversions** across most discount tiers.
 
-![Top Paying Skills](assets/2_top_paying_roles_skills.png)
-*Bar graph visualizing the count of skills for the top 10 paying jobs for data analysts; ChatGPT generated this graph from my SQL query results*
+- **Max Values as Performance Extremes:** The **`max_roi`** and **`max_conversions`** columns provide helpful context on campaign potential but don't reflect the average campaign experience. These are best interpreted as **outliers or peak performance cases**.
+- Offering steeper discounts does **not necessarily guarantee better ROI or higher average conversions**. This insight can guide future campaigns to **avoid over-discounting**, which could possibly erode profitability without delivering proportional performance gains. Instead, the focus may be better placed on optimizing other campaign variables such as targeting, ad creative, or timing!
 
-### 3. In-Demand Skills for Data Analysts
 
-This query helped identify the skills most frequently requested in job postings, directing focus to areas with high demand.
+| Discount Level (%) | Average ROI | Avg. Conversions | Max ROI | Max Conversions |
+|--------------------|-------------|------------------|---------|------------------|
+| 10                 | 2.72        | 533.44           | 4.97    | 993              |
+| 11                 | 2.76        | 471.09           | 4.98    | 995              |
+| 12                 | 2.74        | 491.13           | 4.99    | 984              |
+| 13                 | 2.75        | 509.10           | 4.99    | 998              |
+| 14                 | 2.70        | 514.75           | 5.00    | 994              |	
+| ...                 | ...        | ...              | ...     | ...              |	
+| 69                 | 2.62        | 519.05           | 4.99    | 998              |	
+
+*Table of the average and maximum ROI, Conversions for the discounts 10% to 14%. Note: The summary is based on a broader dataset spanning discount levels from 10% to 69%.*
+
+### 5. What is the Optimal Discount Range?
+
+To determine which discount range yield the highest ROI and Conversions, I will use a CASE statement to categorise the discount percentages into ranges and group them for a better view.
 
 ```sql
-SELECT 
-    skills,
-    COUNT(skills_job_dim.job_id) AS demand_count
-FROM job_postings_fact
-INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
-INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
-WHERE
-    job_title_short = 'Data Analyst' 
-    AND job_work_from_home = True 
+SELECT
+  CASE
+    WHEN discount_level < 10 THEN '0-9%'
+    WHEN discount_level BETWEEN 10 AND 19 THEN '10-19%'
+    WHEN discount_level BETWEEN 20 AND 29 THEN '20-29%'
+    WHEN discount_level BETWEEN 30 AND 39 THEN '30-39%'
+    WHEN discount_level BETWEEN 40 AND 49 THEN '40-49%'
+    ELSE '50%+'
+  END AS discount_range,
+  ROUND(AVG(return_on_investments)::numeric, 2) AS average_roi,
+  ROUND(AVG(conversions)::numeric, 2) AS avg_conversions
+FROM analysis_cleaned
 GROUP BY
-    skills
-ORDER BY
-    demand_count DESC
-LIMIT 5;
-```
-Here's the breakdown of the most demanded skills for data analysts in 2023
-- **SQL** and **Excel** remain fundamental, emphasizing the need for strong foundational skills in data processing and spreadsheet manipulation.
-- **Programming** and **Visualization Tools** like **Python**, **Tableau**, and **Power BI** are essential, pointing towards the increasing importance of technical skills in data storytelling and decision support.
-
-| Skills   | Demand Count |
-|----------|--------------|
-| SQL      | 7291         |
-| Excel    | 4611         |
-| Python   | 4330         |
-| Tableau  | 3745         |
-| Power BI | 2609         |
-
-*Table of the demand for the top 5 skills in data analyst job postings*
-
-### 4. Skills Based on Salary
-Exploring the average salaries associated with different skills revealed which skills are the highest paying.
-```sql
-SELECT 
-    skills,
-    ROUND(AVG(salary_year_avg), 0) AS avg_salary
-FROM job_postings_fact
-INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
-INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
-WHERE
-    job_title_short = 'Data Analyst'
-    AND salary_year_avg IS NOT NULL
-    AND job_work_from_home = True 
-GROUP BY
-    skills
-ORDER BY
-    avg_salary DESC
-LIMIT 25;
-```
-Here's a breakdown of the results for top paying skills for Data Analysts:
-- **High Demand for Big Data & ML Skills:** Top salaries are commanded by analysts skilled in big data technologies (PySpark, Couchbase), machine learning tools (DataRobot, Jupyter), and Python libraries (Pandas, NumPy), reflecting the industry's high valuation of data processing and predictive modeling capabilities.
-- **Software Development & Deployment Proficiency:** Knowledge in development and deployment tools (GitLab, Kubernetes, Airflow) indicates a lucrative crossover between data analysis and engineering, with a premium on skills that facilitate automation and efficient data pipeline management.
-- **Cloud Computing Expertise:** Familiarity with cloud and data engineering tools (Elasticsearch, Databricks, GCP) underscores the growing importance of cloud-based analytics environments, suggesting that cloud proficiency significantly boosts earning potential in data analytics.
-
-| Skills        | Average Salary ($) |
-|---------------|-------------------:|
-| pyspark       |            208,172 |
-| bitbucket     |            189,155 |
-| couchbase     |            160,515 |
-| watson        |            160,515 |
-| datarobot     |            155,486 |
-| gitlab        |            154,500 |
-| swift         |            153,750 |
-| jupyter       |            152,777 |
-| pandas        |            151,821 |
-| elasticsearch |            145,000 |
-
-*Table of the average salary for the top 10 paying skills for data analysts*
-
-### 5. Most Optimal Skills to Learn
-
-Combining insights from demand and salary data, this query aimed to pinpoint skills that are both in high demand and have high salaries, offering a strategic focus for skill development.
-
-```sql
-SELECT 
-    skills_dim.skill_id,
-    skills_dim.skills,
-    COUNT(skills_job_dim.job_id) AS demand_count,
-    ROUND(AVG(job_postings_fact.salary_year_avg), 0) AS avg_salary
-FROM job_postings_fact
-INNER JOIN skills_job_dim ON job_postings_fact.job_id = skills_job_dim.job_id
-INNER JOIN skills_dim ON skills_job_dim.skill_id = skills_dim.skill_id
-WHERE
-    job_title_short = 'Data Analyst'
-    AND salary_year_avg IS NOT NULL
-    AND job_work_from_home = True 
-GROUP BY
-    skills_dim.skill_id
-HAVING
-    COUNT(skills_job_dim.job_id) > 10
-ORDER BY
-    avg_salary DESC,
-    demand_count DESC
-LIMIT 25;
+  CASE
+    WHEN discount_level < 10 THEN '0-9%'
+    WHEN discount_level BETWEEN 10 AND 19 THEN '10-19%'
+    WHEN discount_level BETWEEN 20 AND 29 THEN '20-29%'
+    WHEN discount_level BETWEEN 30 AND 39 THEN '30-39%'
+    WHEN discount_level BETWEEN 40 AND 49 THEN '40-49%'
+    ELSE '50%+'
+  END
+ORDER BY discount_range;
 ```
 
-| Skill ID | Skills     | Demand Count | Average Salary ($) |
-|----------|------------|--------------|-------------------:|
-| 8        | go         | 27           |            115,320 |
-| 234      | confluence | 11           |            114,210 |
-| 97       | hadoop     | 22           |            113,193 |
-| 80       | snowflake  | 37           |            112,948 |
-| 74       | azure      | 34           |            111,225 |
-| 77       | bigquery   | 13           |            109,654 |
-| 76       | aws        | 32           |            108,317 |
-| 4        | java       | 17           |            106,906 |
-| 194      | ssis       | 12           |            106,683 |
-| 233      | jira       | 20           |            104,918 |
+| discount range | average ROI     | avg_conversions | 
+|----------|------------|--------------|
+| 10--19%        | 2.71         | 499.04           |      
+| 20--29%     | 2.74 | 507.94           |           
+| 30--39%       | 2.79     | 510.99           |           
+| 40--49%       | 2.80  | 489.84           |           
+| 50%+      | 2.75      | 492.78           |           
 
 *Table of the most optimal skills for data analyst sorted by salary*
 
