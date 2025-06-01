@@ -4,28 +4,33 @@
 🔍 SQL queries? Check them out here: [View Marketing Analysis SQL](First_Proj_Data_Cleaning_Exploration.sql)
 
 # Background
-Driven by a quest to navigate the data analyst job market more effectively, this project was born from a desire to pinpoint top-paid and in-demand skills, streamlining others work to find optimal jobs.
+Driven by the quest to evaluate campaign efficiency, product sales, and customer engagement that replicates real-life scenarios, this project was created synthetically to allow for a comprehensive analysis of a marketing campaign performance.
 
-Data hails from my [SQL Course](https://lukebarousse.com/sql). It's packed with insights on job titles, salaries, locations, and essential skills.
+Data is extracted from [Kaggle Dataset](https://www.kaggle.com/datasets/imranalishahh/marketing-and-product-performance-dataset). It's packed with insights on campaign performance, product details, customer insights, and promotional context like discount levels and common keywords by consumers.
 
 ### The questions I wanted to answer through my SQL queries were:
 
-1. What are the top-paying data analyst jobs?
-2. What skills are required for these top-paying jobs?
-3. What skills are most in demand for data analysts?
-4. Which skills are associated with higher salaries?
-5. What are the most optimal skills to learn?
+1. Which campaign generated the highest return on investment (ROI)?
+2. Do premium subscriptions generate more revenue compared to basic ones?
+3. What is the average number of clicks required to achieve a single conversion?
+4. Analyse the ROI and Conversions by discount levels. Any interesting insights found?
+5. What is the optimal discount ranges that will yield the most profitable ROI and conversions?
+6. Which product bundles generates the most sales?
+7. How does the customer satisfaction levels vary across different price ranges?
+8. Are there any correlation between certain campaign keywords and conversion rates?
+9. Additional: Exploration of relationship between bundle price, units sold, and average satisfaction rate.
 
 # Tools I Used
-For my deep dive into the data analyst job market, I harnessed the power of several key tools:
+For my deep dive into the marketing campaign performance, I harnessed the power of several key tools:
 
-- **SQL:** The backbone of my analysis, allowing me to query the database and unearth critical insights.
-- **PostgreSQL:** The chosen database management system, ideal for handling the job posting data.
-- **Visual Studio Code:** My go-to for database management and executing SQL queries.
-- **Git & GitHub:** Essential for version control and sharing my SQL scripts and analysis, ensuring collaboration and project tracking.
+- **SQL:** Used to extract and analyze data, forming the foundation of key insights.
+- **PostgreSQL:** Chosen for its robustness in managing the job posting dataset.
+- **Visual Studio Code:** Primary tool for writing and executing SQL queries.
+- **Git & GitHub:** Employed for version control and sharing scripts, supporting collaboration and tracking project progress.
+  
 
 # The Analysis
-Each query for this project aimed at investigating specific aspects of the data analyst job market. Here’s how I approached each question:
+Each query for this project aimed at investigating specific aspects of the marketing campaign performance. Here’s how I approached each question:
 
 ### 1. Top Paying Data Analyst Jobs
 To identify the highest-paying roles, I filtered data analyst positions by average yearly salary and location, focusing on remote jobs. This query highlights the high paying opportunities in the field.
