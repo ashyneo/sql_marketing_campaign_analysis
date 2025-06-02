@@ -21,7 +21,7 @@ Data is extracted from [Kaggle Dataset](https://www.kaggle.com/datasets/imranali
 6. Which product bundles generate the most sales?
 7. How does the customer satisfaction levels vary across different price range?
 8. Are there any correlation between certain campaign keywords and conversion rates?
-9. Additional: Exploration of relationship between bundle price, units sold, and average satisfaction rate.
+
 
 # Tools I Used
 For my deep dive into the marketing campaign performance, I harnessed the power of several key tools:
@@ -195,13 +195,108 @@ ORDER BY discount_range;
 | 40--49%       | 2.80  | 489.84           |           
 | 50%+      | 2.75      | 492.78           |           
 
-*Table of the most optimal skills for data analyst sorted by salary*
+*Table of categorised discount range sorted by average ROI and Conversions.*
 
-Here's a breakdown of the most optimal skills for Data Analysts in 2023: 
-- **High-Demand Programming Languages:** Python and R stand out for their high demand, with demand counts of 236 and 148 respectively. Despite their high demand, their average salaries are around $101,397 for Python and $100,499 for R, indicating that proficiency in these languages is highly valued but also widely available.
-- **Cloud Tools and Technologies:** Skills in specialized technologies such as Snowflake, Azure, AWS, and BigQuery show significant demand with relatively high average salaries, pointing towards the growing importance of cloud platforms and big data technologies in data analysis.
-- **Business Intelligence and Visualization Tools:** Tableau and Looker, with demand counts of 230 and 49 respectively, and average salaries around $99,288 and $103,795, highlight the critical role of data visualization and business intelligence in deriving actionable insights from data.
-- **Database Technologies:** The demand for skills in traditional and NoSQL databases (Oracle, SQL Server, NoSQL) with average salaries ranging from $97,786 to $104,534, reflects the enduring need for data storage, retrieval, and management expertise.
+📝 Key Findings: 
+- **Most Efficient**: The 30-39% discount range generated the highest average convsions at 510.99, closely followed by the 20-29% range.
+- **Interesting Insight**: The 40-49% discount range had some potential where it edges out in ROI (2.80), but sees lower conversions at 489.84. This suggests that pushing discounts too high does not necessarily lead to better performance.
+- **Recommendation**: Discount levels between 30-39% offers a solid balance and sweet spot in attracting customers and maintaining strong returns, making it an optimal choice when planning for future campaigns.
+
+
+### 6. Product Bundle Price vs Sales Performance
+
+To explore whether pricing impacts sales performance, I wrote the SQL query below to sort bundles by their 'bundle_price' and looked at how many units were sold per price point.
+
+```sql
+SELECT
+bundle_id,
+bundle_price,
+SUM(units_sold) AS total_units_sold -- We sum, for in case there are multiple records of bundle_id in the column. Getting the total of each is crucial.
+FROM analysis_cleaned
+WHERE bundle_id IS NOT NULL
+GROUP BY bundle_id, bundle_price
+ORDER BY bundle_price; 
+```
+
+| bundle_id     | bundle_price | total_units_sold |
+|---------------|--------------|------------------|
+| BNDL_0XS0R8   | 50.01        | 196              |
+| BNDL_RR64XT   | 50.06        | 17               |
+| BNDL_5IHIT1   | 50.09        | 75               |
+| BNDL_SDJB4Q   | 50.14        | 146              |
+| BNDL_YNBZJT   | 50.14        | 30               |
+| BNDL_E7EXIK   | 50.26        | 58               |
+| BNDL_HXX6J3   | 50.32        | 133              |
+| BNDL_RZPVOG   | 50.40        | 15               |
+| BNDL_J5TLHX   | 50.49        | 149              |
+| BNDL_Y0A455   | 50.53        | 14               |
+
+*Table of Top Bundle Prices vs Units Sold. Rows extend up to 10,000 rows.*
+
+What I Found:
+- **No Clear or Consistent Correlation**: Despite prices hovering around $50, the number of units sold varies significantly from as low as 14 to nearly 200. This suggests that there is no clear or consistent correlation between the price and sales volume at the price point alone.
+- **Potential Things to Look At**: However, the incosnsitency might point to factors that are not price related, such as product quality / appeal, marketing efforts, or bundle contents or brand associations.
+- **Recommendations**: Since the output extents to 10,000 rows, it would be helpful to visualise this correlation in depth using a scatterplot. It would also be useful to consult the marketing or product teams to better understand:
+  - What each bundle actually contains?
+  - Are some bundles were promoted more heavily?
+  - If some bundles appeal to different customer segments (e.g., price-insensitive vs budget shoppers)?
+  - Using a scatterplot to provide better insight into trends / clusters potentially? (No outliers since data was cleaned beforehand)
+
+
+### 7. How Does Customer Satisfaction Vary Across Different Bundle Price Range?
+
+To explore how customer satisfaction scores (measured after refunds, on a scale of 1 to 5 with 5 being most satisfied) are impacted by bundle price range. I wrote a CASE statement to categorise the respective bundle price range after calculating the minimum and maximum bundle prices.
+
+```sql
+SELECT
+CASE
+WHEN bundle_price < 100 THEN 'Below $100'
+WHEN bundle_price BETWEEN 100 AND 199 THEN '$100 - $199'
+WHEN bundle_price BETWEEN 200 AND 299 THEN '$200 - $299'
+ELSE 'Above $300+'
+END AS price_range,
+ROUND(AVG(customer_satisfaction)::numeric, 2) AS avg_satisfaction
+FROM analysis_cleaned
+WHERE bundle_id IS NOT NULL
+GROUP BY price_range
+ORDER BY price_range;
+```
+
+
+| Price Range       | Average Satisfaction |
+|-------------------|----------------------|
+| $100 – $199       | 2.51                 |
+| $200 – $299       | 2.47                 |
+| Above $300+       | 2.50                 |
+| Below $100        | 2.54                 |
+
+*Table of Average Customer Satisfaction Scores by Bundle Price Range.*
+
+Insight Derived:
+- **Relatively Stable Scores**: Customer satisfaction scores remain relatively consistent across the different price ranges, fluctuating only slightly between 2.47 and 2.54.
+- **Pricing Not A Major Driver of Satisfaction**: It appears that pricing does not appear to drive customer satisfaction. Even products priced above $300 received a similar satisafction score to lower-priced bundles. Hence, customers may be **more influenced by product quality, brand experience, or service** rather than price alone, indicating a likely **price insensitive** or **value-driven** customer base.
+
+
+### 8. Does Certain Campaign Keyword Impact Conversion Rates?
+
+To explore how customer satisfaction scores (measured after refunds, on a scale of 1 to 5 with 5 being most satisfied) are impacted by bundle price range. I wrote a CASE statement to categorise the respective bundle price range after calculating the minimum and maximum bundle prices.
+
+```sql
+SELECT
+CASE
+WHEN bundle_price < 100 THEN 'Below $100'
+WHEN bundle_price BETWEEN 100 AND 199 THEN '$100 - $199'
+WHEN bundle_price BETWEEN 200 AND 299 THEN '$200 - $299'
+ELSE 'Above $300+'
+END AS price_range,
+ROUND(AVG(customer_satisfaction)::numeric, 2) AS avg_satisfaction
+FROM analysis_cleaned
+WHERE bundle_id IS NOT NULL
+GROUP BY price_range
+ORDER BY price_range;
+```
+
+
 
 # What I Learned
 
