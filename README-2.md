@@ -307,25 +307,28 @@ Insights Found:
 - **Affordable**: Despite affordability being the most mentioned keyword, it has the lowest average conversions. This could imply that affordability alone is not a strong conversion driver, which further buttress my analysis in [Question 7](#7-how-does-customer-satisfaction-vary-across-different-bundle-price-range) that pricing is not a major driver of satisfaction.
 
 
-# What I Learned
+# What I Learned 📖
 
-Throughout this adventure, I've turbocharged my SQL toolkit with some serious firepower:
+Throughout this project, I really pushed my SQL skills to the next level:
 
-- **🧩 Complex Query Crafting:** Mastered the art of advanced SQL, merging tables like a pro and wielding WITH clauses for ninja-level temp table maneuvers.
-- **📊 Data Aggregation:** Got cozy with GROUP BY and turned aggregate functions like COUNT() and AVG() into my data-summarizing sidekicks.
-- **💡 Analytical Wizardry:** Leveled up my real-world puzzle-solving skills, turning questions into actionable, insightful SQL queries.
+- **🧩 Advanced Query Building:** Got hands-on with more complex queries - CASE and CTEs to categorise data and create temporary table to extract the insight I need for my analysis.
+- **📊 Data Aggregation:** Used GROUP BY along with aggregate functions like COUNT() and AVG() to break down the data into clear, meaningful insights.
+- **💡 Problem-Solving with Purpose:** I learned to start by asking the right questions, beginning with understanding the industry and its context because domain knowledge matters. Only then did I translate those insights into SQL logic that can drive real business understanding.
 
 # Conclusions
 
-### Insights
-From the analysis, several general insights emerged:
+### Insights 💡
+From the analysis, I conclude with these general insights:
 
-1. **Top-Paying Data Analyst Jobs**: The highest-paying jobs for data analysts that allow remote work offer a wide range of salaries, the highest at $650,000!
-2. **Skills for Top-Paying Jobs**: High-paying data analyst jobs require advanced proficiency in SQL, suggesting it’s a critical skill for earning a top salary.
-3. **Most In-Demand Skills**: SQL is also the most demanded skill in the data analyst job market, thus making it essential for job seekers.
-4. **Skills with Higher Salaries**: Specialized skills, such as SVN and Solidity, are associated with the highest average salaries, indicating a premium on niche expertise.
-5. **Optimal Skills for Job Market Value**: SQL leads in demand and offers for a high average salary, positioning it as one of the most optimal skills for data analysts to learn to maximize their market value.
+1. **High-ROI Campaigns May Reveal Formula for Repeatable Success**: Campaigns CMP_2GQ60B, CMP_5590UQ & CMP_U44WCH, are capable of reaching peak performance, with them consistently achieving the highest ROI. This suggests that well-executed strategies can be reliably replicated for future success.
+2. **Higher Priced tiers don't Guarantee Higher Revenue:** The basic tier outperformed premium in average revenue, suggesting customer volume and accessibility at a lower price points can still drive substantial returns.
+3. **Dive Deeper into Successful Campaigns:** Some campaigns like CMP_MY63GT achieved exceptionally high conversion efficiency. It is important to evaluate the drivers of success, which could possibly be due to referral links or influencer impact. Campaign tracking methods and customer behaviour nuances need further exploration.
+4. **Discount Level Does Not Impact ROI and Conversions:** With the bulk of the customer base being generally price insensitive, there is no direct correlation between higher discounts and improved campaign performance. Hence, increasing discounts does not automatically lead to better ROI or more conversions, which the company should caution against excessive discounting. Mid-range discounts (30-39%) offer the best balance of ROI and conversions, offering a more strategic guideline for pricing decisions.
+5. **Customer Satisfaction is Stable Across All Price Range:** Higher prices do not correlate with higher or lower satisfaction, suggesting price is not a key driver of satisfaction. Quality or brand experience might matter more.
+6. **Consumers May Value Sentimental Experiences More Than Price:** Despite 'Affordability' being the most common keyword, it has lower conversions, highlighting that emotional or aspirational product traits influence consumer behaviour more than lower prices.
 
-### Closing Thoughts
+### Closing Thoughts 🧠
 
-This project enhanced my SQL skills and provided valuable insights into the data analyst job market. The findings from the analysis serve as a guide to prioritizing skill development and job search efforts. Aspiring data analysts can better position themselves in a competitive job market by focusing on high-demand, high-salary skills. This exploration highlights the importance of continuous learning and adaptation to emerging trends in the field of data analytics.
+This project not only allowed me to draw key insights about campaign effectiveness, pricing strategies, and consumer behaviour, but it also significantly stregthened my SQL capabilities. Through this project, I gained hands-on experience in cleaning data, handling outliers, interpreting summary statistics, and writing efficient SQL queries using PostgreSQL🐘 on VScode to extract meaningful information, which are crucial to any data-driven marketing role.
+
+While the dataset I used was a synthetic one sourced from Kaggle to stimulate real-world marketing conditions, I understand that actual business data is often more unstructured and would require advanced techniques like JOIN and more complex logic. Despite that, the analysis offered me valuable marketing insights, showing that high-performing campaigns often follow certain repeatable patterns, lower-priced tiers can still drive strong revenue, and emotional or aspirational messaging may matter more than priced-focused ones in driving conversions. This experience not only enhanced my technical abilities but also deepended my strategic thinking when it comes to campaign effectiveness and consumer behaviour. 
