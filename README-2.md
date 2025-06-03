@@ -142,8 +142,8 @@ Key Insights derived from the above query:
   - **Average ROI** – remains relatively stable, fluctuating around **2.5** even at high discount levels (e.g., 69%).
   - **Average Conversions** – consistently hovers between **400 to 500 conversions** across most discount tiers.
 
-- **Max Values as Performance Extremes:** The **`max_roi`** and **`max_conversions`** columns provide helpful context on campaign potential but don't reflect the average campaign experience. These are best interpreted as **outliers or peak performance cases**.
-- Offering steeper discounts does **not necessarily guarantee better ROI or higher average conversions**. This insight can guide future campaigns to **avoid over-discounting**, which could possibly erode profitability without delivering proportional performance gains. Instead, the focus may be better placed on optimizing other campaign variables such as targeting, ad creative, or timing!
+- **Max Values as Performance Extremes:** The **`max_roi`** and **`max_conversions`** columns provide helpful context on campaign potential but don't reflect the average campaign experience. These are interpreted as **outliers or peak performance cases**.
+- Offering steeper discounts does **not necessarily guarantee better ROI or higher average conversions**. This insight can guide future campaigns to **avoid over-discounting**, which could possibly erode profitability without delivering proportional performance gains. Instead, the focus may be better placed on optimizing other campaign factors like targeting, ad creative, or timing.
 
 
 | Discount Level (%) | Average ROI | Avg. Conversions | Max ROI | Max Conversions |
@@ -279,23 +279,32 @@ Insight Derived:
 
 ### 8. Does Certain Campaign Keyword Impact Conversion Rates?
 
-To explore how customer satisfaction scores (measured after refunds, on a scale of 1 to 5 with 5 being most satisfied) are impacted by bundle price range. I wrote a CASE statement to categorise the respective bundle price range after calculating the minimum and maximum bundle prices.
+Finally, I want to find out if certain things consumers say have any influence or correlation on conversion. 
 
 ```sql
-SELECT
-CASE
-WHEN bundle_price < 100 THEN 'Below $100'
-WHEN bundle_price BETWEEN 100 AND 199 THEN '$100 - $199'
-WHEN bundle_price BETWEEN 200 AND 299 THEN '$200 - $299'
-ELSE 'Above $300+'
-END AS price_range,
-ROUND(AVG(customer_satisfaction)::numeric, 2) AS avg_satisfaction
+SELECT 
+  TRIM(UNNEST(STRING_TO_ARRAY(common_keywords, ','))) AS keyword,
+  COUNT(*) AS keyword_count,
+  ROUND(AVG(conversions), 2) AS avg_conversions
 FROM analysis_cleaned
-WHERE bundle_id IS NOT NULL
-GROUP BY price_range
-ORDER BY price_range;
+WHERE common_keywords IS NOT NULL
+GROUP BY keyword
+ORDER BY avg_conversions DESC;
 ```
 
+| **Keyword**   | **Average Conversions** | **Keyword Count** |
+|---------------|--------------------------|--------------------|
+| Innovative    | 507.70                   | 2,491              |
+| Durable       | 504.60                   | 2,436              |
+| Stylish       | 494.33                   | 2,514              |
+| Affordable    | 489.71                   | 2,559              |
+
+*Results Table of Consumer Keywords frequency and Average Conversions.*
+
+Insights Found:
+- **Innovative**: This keyword yielded the highest average conversions (507.70) suggesting that consumers are more responsive to campaigns emphasizing innovations.
+- **Durable** and **Stylish**: These keywords followed closely behind, indicating that product reliability and aesthetic appeal also positively influence conversions.
+- **Affordable**: Despite affordability being the most mentioned keyword, it has the lowest average conversions. This could imply that affordability alone is not a strong conversion driver, which further buttress my analysis in [Question 7](#7-how-does-customer-satisfaction-vary-across-different-bundle-price-range) that pricing is not a major driver of satisfaction.
 
 
 # What I Learned
