@@ -1,6 +1,6 @@
 # Introduction
 📊 Here, I dove into analyzing marketing campaign performance data!
-In this project, I focused on data cleaning and exploratory data analysis (EDA) — such as identifying 💰 top-performing campaigns by revenue and conversions, and exploring 📈 statistical correlations that might explain what drives their success.
+In this project, I focused on data wrangling and exploratory data analysis (EDA) — such as identifying 💰 top-performing campaigns by revenue and conversions, and exploring 📈 statistical correlations that might explain what drives their success.
 
 🔍 Check out my SQL Queries here: [View Marketing Analysis SQL](First_Proj_Data_Cleaning_Exploration.sql)
 
