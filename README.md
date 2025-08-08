@@ -1,6 +1,6 @@
 # Marketing Campaign Analysis: SQL Insights Report
 **Note:** This README is **summarised** for a quick overview and for rapid stakeholder evaluation.
-For the full step-by-step technical README (including **SQL queries, data cleaning process, in-depth EDA, my reflection & thoughts)**, [click here](https://github.com/ashyneo/sql_marketing_campaign_analysis/blob/main/README-2.md).
+For the full step-by-step technical README (including **SQL queries, data cleaning process, in-depth EDA, my reflection & thoughts)**, [Click here](https://github.com/ashyneo/sql_marketing_campaign_analysis/blob/main/README-2.md).
 
 Full Code: [Click Here](https://github.com/ashyneo/sql_marketing_campaign_analysis/blob/main/First_Proj_Data_Cleaning_Exploration.sql)
 
