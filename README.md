@@ -1,8 +1,9 @@
 # Marketing Campaign Analysis: SQL Insights Report
-**Note:** This README is **summarised** for a quick overview and for rapid stakeholder evaluation.
-For the full step-by-step technical README (including **SQL queries, data cleaning process, in-depth EDA, my reflection & thoughts)**, [Click here](https://github.com/ashyneo/sql_marketing_campaign_analysis/blob/main/README-2.md).
+**Note:** This README provides a more **concise**, high level overview to help readers quickly grasp my project's intent, key findings, and outcomes.
 
-Full Code: [Click Here](https://github.com/ashyneo/sql_marketing_campaign_analysis/blob/main/First_Proj_Data_Cleaning_Exploration.sql)
+For the full step-by-step technical README, including **SQL queries, data cleaning process, in-depth EDA, and my entire thought process**, [Click here](https://github.com/ashyneo/sql_marketing_campaign_analysis/blob/main/README-2.md).
+
+**Full Code:** [Click Here](https://github.com/ashyneo/sql_marketing_campaign_analysis/blob/main/First_Proj_Data_Cleaning_Exploration.sql)
 
 This project demonstrates my skills in data extraction and exploratory analysis using PostgreSQL on Visual Studio Code, focusing on uncovering meaningful marketing insights such as ROI, conversions, and customer satisfaction trends.
 While the core analysis was performed entirely through SQL queries, I utilised other tools to generate graphs to better communicate the findings.
@@ -80,7 +81,7 @@ _**Insight:**_ Surprisingly, **discount levels do not strongly correlate with RO
 ---
 
 ### 5. Categorized Discount Range – Sorted by Avg. ROI & Conversions
-_**Insight:**_ Discounts in the **30%-39% range provide the best balance**, yielding the highest average conversions (511) and strong ROI. While the 40%-49% range edges out slightly on ROI, it sees fewer conversions, suggesting that too-high discounts don’t always boost performance.
+_**Insight:**_ Discounts in the **30%-39% range provide the best balance**, yielding the highest average conversions (511) and strong ROI. While the 40%-49% range edges out slightly on ROI, it sees fewer conversions, suggesting that "too high" discounts do not always boost performance.
 
 
  discount range | average ROI     | avg_conversions | 
@@ -97,7 +98,7 @@ _**Insight:**_ Discounts in the **30%-39% range provide the best balance**, yiel
 ---
 
 ### 6. Top Bundle Prices vs Units Sold  
-_**Insight:**_ There is **no clear pattern between bundle price and sales volume**. Prices hover around $50, but units sold vary widely—from 14 to nearly 200—implying factors like product appeal, promotion, or bundle content impact sales more than price alone.
+_**Insight:**_ There is **no clear pattern between bundle price and sales volume**. Prices hover around $50, but units sold vary widely, from 14 to nearly 200, implying factors like product appeal, promotion, or bundle content impact sales more than price alone.
 
 
 
@@ -152,25 +153,25 @@ _**Insight:**_ Campaigns emphasizing the keyword **“Innovative”** saw the hi
 
 ## ⚡ Immediate Insights & Recommended Actions
 
-- **Proven Campaign Success:**  
-  Campaigns like **CMP_2GQ60B**, **CMP_5590UQ**, and **CMP_U44WCH** consistently deliver the highest ROI. These represent repeatable winning strategies that marketing teams should study and replicate to maximize future campaign success.
+- 📈 **PROVEN Campaign Winners:**  
+  Campaigns like `CMP_2GQ60B`, `CMP_5590UQ`, and `CMP_U44WCH` consistently deliver the highest ROI. These represent repeatable winning strategies that marketing teams should study and replicate to maximize future campaign success.
 
-- **Revenue Driven by Volume, Not Price:**  
+- 💡 **Revenue Driven by Volume, NOT Price:**  
   Surprisingly, the **Basic subscription tier generates more revenue than Premium**, likely due to a larger or more loyal customer base. This highlights an opportunity to focus on upselling and retention within the Basic tier to boost returns.
 
-- **Investigate Ultra-Effective Campaigns:**  
-  Some campaigns, such as **CMP_MY63GT**, achieve exceptional conversion rates—possibly due to referral programs or influencer marketing. Diving deeper into these could uncover powerful tactics to scale across other campaigns.
+- 🎯 **INVESTIGATE Ultra-Effective Campaigns:**  
+  Some campaigns, such as `CMP_MY63GT`, achieve exceptional conversion rates—possibly due to referral programs or influencer marketing. Diving deeper into these could uncover powerful tactics to scale across other campaigns.
 
-- **Discounts Don’t Guarantee Better Results:**  
+- 💰 **Discounts DO NOT ALWAYS MEAN Better Results:**  
   Offering bigger discounts doesn’t automatically improve ROI or conversions. Most customers are **price insensitive**, so aggressive discounting can erode profits without boosting sales. Instead, focus on **mid-range discounts (30-39%)** to balance customer attraction with profitability.
 
-- **Customer Satisfaction Isn’t About Price:**  
+- 😊 **Customer Satisfaction IS NOT About Price:**  
   Satisfaction scores remain steady across all price ranges, suggesting that **quality and brand experience matter more** than price in shaping how customers feel.
 
-- **Emotional Appeal Beats Affordability:**  
-  While “Affordable” is the most frequently used campaign keyword, it correlates with lower conversions. This shows that **emotional and aspirational messaging drives stronger customer engagement** than price-focused language.
+- ❤️ **Emotional Appeal BEATS Affordability:**  
+  While `Affordable` is the most frequently used campaign keyword, it correlates with lower conversions. This shows that **emotional and aspirational messaging drives stronger customer engagement** than price-focused language.
 
-These insights provide clear, actionable directions to optimize marketing strategies, pricing, and messaging for stronger business results.
+From these insights, we now have a clearer, actionable direction to optimize marketing strategies, pricing, and messaging for stronger business results.
 
 ---
 
