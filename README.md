@@ -17,11 +17,6 @@ The analysis focuses on identifying:
 - Pricing strategies that influence sales volume and satisfaction
 - Keywords that drive consumer engagement
 
-This README is tailored for **non-technical stakeholders**.  
-For detailed technical documentation, including SQL queries and schema design, please see:  
-[**Technical README**](./TECHNICAL_README.md)
-
-
 
 ---
 
